@@ -1,0 +1,16 @@
+<package>
+  <description brief="finger_tips_tracking">
+
+     finger_tips_tracking
+
+  </description>
+  <author>Genevieve & Ugo</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/finger_tips_tracking</url>
+  <depend package="roscpp"/>
+  <depend package="opencv2"/>
+
+</package>
+
+

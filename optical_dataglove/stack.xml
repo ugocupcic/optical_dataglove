@@ -1,0 +1,9 @@
+<stack>
+  <description brief="optical_dataglove">optical_dataglove</description>
+  <author>Maintained by Genevieve & Ugo</author>
+  <license>BSD</license>  
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/optical_dataglove</url>
+  <depend stack="ros" />
+
+</stack>
