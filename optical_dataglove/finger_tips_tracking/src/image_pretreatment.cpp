@@ -40,6 +40,8 @@ namespace optical_dataglove
   {
     start_image = image_mat;
     convert_to_hsv();
+    filter_saturation();
+    erode_then_dilate();
 
     return transformed_image;
   }
@@ -49,18 +51,13 @@ namespace optical_dataglove
     cv::cvtColor (start_image, transformed_image, CV_BGR2HSV);
   }
 
-  void ImagePretreater::filter_hue()
-  {
+  void ImagePretreater::filter_saturation()
+  {   
     for(int i = 0; i < transformed_image.rows; i++)
     {
       for(int j = 0; j < transformed_image.cols; j++)
       {
-        // The output pixel is white if the input pixel
-        // hue is orange and saturation is reasonable
-        
-        if(! (transformed_image.at<cv::Vec3b>(i,j)[0] > 4 &&
-              transformed_image.at<cv::Vec3b>(i,j)[0] < 28 &&
-              transformed_image.at<cv::Vec3b>(i,j)[1] > 128) )
+        if( transformed_image.at<cv::Vec3b>(i,j)[1] < 200 )
         {
           // Clear pixel blue output channel
           transformed_image.at<cv::Vec3b>(i,j)[0] = 0;
@@ -70,6 +67,15 @@ namespace optical_dataglove
       }
     }
   }  
+
+  void ImagePretreater::erode_then_dilate()
+  {
+    cv::erode(transformed_image, tmp_image, cv::Mat(), cv::Point(-1,-1), 10);
+    transformed_image = tmp_image;
+    cv::dilate(transformed_image, tmp_image, cv::Mat(), cv::Point(-1,-1), 10);
+    transformed_image = tmp_image;
+    
+  }
 }
 
 /* For the emacs weenies in the crowd.
