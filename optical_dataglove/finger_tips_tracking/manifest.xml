@@ -4,12 +4,15 @@
      finger_tips_tracking
 
   </description>
-  <author>Genevieve & Ugo</author>
-  <license>BSD</license>
+  <author>Ugo Cupcic / ugocupcic@gmail.com</author>
+  <license>GPL</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/finger_tips_tracking</url>
   <depend package="roscpp"/>
   <depend package="opencv2"/>
+  <depend package="cv_bridge"/>
+  <depend package="sensor_msgs"/>
+  <depend package="image_transport"/>
 
 </package>
 

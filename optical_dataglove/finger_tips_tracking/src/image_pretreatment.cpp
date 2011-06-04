@@ -38,19 +38,38 @@ namespace optical_dataglove
 
   cv::Mat ImagePretreater::pretreat(cv::Mat image_mat)
   {
-    convert_to_hsv(image_mat);
-
-    img_H = cv::Mat::zeros(transformed_image.rows, transformed_image.cols, CV_8U);
-    img_S = cv::Mat::zeros(transformed_image.rows, transformed_image.cols, CV_8U);
-    img_V = cv::Mat::zeros(transformed_image.rows, transformed_image.cols, CV_8U);
+    start_image = image_mat;
+    convert_to_hsv();
 
     return transformed_image;
   }
 
-  cv::Mat ImagePretreater::convert_to_hsv(cv::Mat image_mat)
+  void ImagePretreater::convert_to_hsv()
   {    
-    cv::cvtColor (image_mat, transformed_image, CV_BGR2HSV);
+    cv::cvtColor (start_image, transformed_image, CV_BGR2HSV);
   }
+
+  void ImagePretreater::filter_hue()
+  {
+    for(int i = 0; i < transformed_image.rows; i++)
+    {
+      for(int j = 0; j < transformed_image.cols; j++)
+      {
+        // The output pixel is white if the input pixel
+        // hue is orange and saturation is reasonable
+        
+        if(! (transformed_image.at<cv::Vec3b>(i,j)[0] > 4 &&
+              transformed_image.at<cv::Vec3b>(i,j)[0] < 28 &&
+              transformed_image.at<cv::Vec3b>(i,j)[1] > 128) )
+        {
+          // Clear pixel blue output channel
+          transformed_image.at<cv::Vec3b>(i,j)[0] = 0;
+          transformed_image.at<cv::Vec3b>(i,j)[1] = 0;
+          transformed_image.at<cv::Vec3b>(i,j)[2] = 0;
+        }
+      }
+    }
+  }  
 }
 
 /* For the emacs weenies in the crowd.

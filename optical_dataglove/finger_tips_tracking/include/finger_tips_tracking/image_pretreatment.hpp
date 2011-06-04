@@ -41,11 +41,10 @@ namespace optical_dataglove
 
     cv::Mat pretreat(cv::Mat image_mat);
   private:
-    cv::Mat convert_to_hsv(cv::Mat image_mat);
-
-    cv::Mat transformed_image;
-
-    cv::Mat img_H, img_S, img_V;
+    void convert_to_hsv();
+    void filter_hue();
+    
+    cv::Mat transformed_image, start_image;
   };
 }
 

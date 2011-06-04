@@ -56,11 +56,9 @@ namespace optical_dataglove
     try
     {
       last_image = cv_bridge.imgMsgToCv(image_ptr, "rgb8");
-      // Convert IplImage to cv::Mat
-      last_image_mat = cv::Mat(last_image);
       
       //pretreat the image
-      last_image_mat = image_pretreater->pretreat(last_image_mat);
+      last_image_mat = image_pretreater->pretreat(cv::Mat(last_image));
 
       if(display_debug_image)
         cv::imshow("view", last_image_mat);
