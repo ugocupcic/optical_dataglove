@@ -28,7 +28,7 @@
 
 namespace optical_dataglove
 {
-  const int ImagePretreater::default_saturation_threshold = 140;
+  const int ImagePretreater::default_saturation_threshold = 100;
 
   ImagePretreater::ImagePretreater()
     : first_call(true)
@@ -51,7 +51,7 @@ namespace optical_dataglove
     filter_saturation(default_saturation_threshold);
     erode_then_dilate();
 
-    return transformed_image;
+    return bin_image;
   }
 
   void ImagePretreater::convert_to_hsv()
@@ -75,7 +75,7 @@ namespace optical_dataglove
         }
         else
         {
-          bin_image.at<uchar>(i,j) = 1;
+          bin_image.at<uchar>(i,j) = 255;
         }
       }
     }
@@ -83,10 +83,10 @@ namespace optical_dataglove
 
   void ImagePretreater::erode_then_dilate()
   {
-    cv::erode(transformed_image, tmp_image, cv::Mat(), cv::Point(-1,-1), 10);
-    transformed_image = tmp_image;
-    cv::dilate(transformed_image, tmp_image, cv::Mat(), cv::Point(-1,-1), 10);
-    transformed_image = tmp_image;    
+    cv::erode(bin_image, tmp_image, cv::Mat(), cv::Point(-1,-1), 10);
+    bin_image = tmp_image;
+    cv::dilate(bin_image, tmp_image, cv::Mat(), cv::Point(-1,-1), 10);
+    bin_image = tmp_image;    
   }
 }
 

@@ -65,13 +65,13 @@ namespace optical_dataglove
       if(display_debug_image)
         cv::imshow("Pretreated Image", last_image_mat);
       
-      //segment the image
+      //segment the binary image
       position_in_image = image_segmenter->segment_finger_tips(last_image_mat);
       
       if(display_debug_image)
       {
         cv::Point center(position_in_image.x_img, position_in_image.y_img);
-        cv::circle( last_image_mat, center, position_in_image.radius, cv::Scalar(0,0,255), 2, 8, 0 );
+        cv::circle( last_image_mat, center, position_in_image.radius, cv::Scalar(255), 2, 8, 0 );
         cv::imshow("Segmentation", last_image_mat);
       }
     }
