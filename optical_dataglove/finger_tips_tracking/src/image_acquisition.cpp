@@ -70,7 +70,7 @@ namespace optical_dataglove
       
       if(display_debug_image)
       {
-        cv::Point center(position_in_image.x_img, position_in_image.y_img);
+        cv::Point center(position_in_image.y_img, position_in_image.x_img);
         cv::circle( last_image_mat, center, position_in_image.radius, cv::Scalar(255), 2, 8, 0 );
         cv::imshow("Segmentation", last_image_mat);
       }
