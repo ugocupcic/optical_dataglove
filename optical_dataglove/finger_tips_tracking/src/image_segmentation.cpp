@@ -1,5 +1,5 @@
 /**
- * @file   image_pretreatment.hpp
+ * @file   image_segmentation.cpp
  * @author Ugo Cupcic <ugocupcic@gmail.com>
  * @date   Sun May 29 15:16:04 2011
  * 
@@ -20,37 +20,33 @@
 * with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 *
- * @brief  Pretreats the images to get an image which is easier to interpret.
+ * @brief  Segments the image to extract the finger tip position.
  * 
  * 
  */
 
-#ifndef _IMAGE_PRETREATER_HPP_
-#define _IMAGE_PRETREATER_HPP_
-
-#include <ros/ros.h>
-#include <opencv/cv.h>
+#include <finger_tips_tracking/image_segmentation.hpp>
 
 namespace optical_dataglove
 {
-  class ImagePretreater
+  ImageSegmenter::ImageSegmenter()
   {
-  public:
-    ImagePretreater();
-    ~ImagePretreater();
+  }
 
-    cv::Mat pretreat(cv::Mat image_mat);
-  private:
-    void convert_to_hsv();
-    void filter_saturation(int threshold);
-    void erode_then_dilate();
+  ImageSegmenter::~ImageSegmenter()
+  {
+  }
 
-    static const int default_saturation_threshold;
+  finger_tip::Position ImageSegmenter::segment_finger_tips(cv::Mat image_mat)
+  {
+    finger_tip::Position position_in_image;
+    position_in_image.x_img = 100;
+    position_in_image.y_img = 100;
 
-    bool first_call;
-    
-    cv::Mat transformed_image, start_image, bin_image, tmp_image;
-  };
+    position_in_image.radius = 10;
+
+    return position_in_image;
+  }
 }
 
 /* For the emacs weenies in the crowd.
@@ -59,4 +55,4 @@ Local Variables:
 End:
 */
 
-#endif
+

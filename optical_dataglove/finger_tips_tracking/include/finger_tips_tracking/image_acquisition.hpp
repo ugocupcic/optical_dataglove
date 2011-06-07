@@ -36,6 +36,7 @@
 #include <opencv/cv.h>
 
 #include "finger_tips_tracking/image_pretreatment.hpp"
+#include "finger_tips_tracking/image_segmentation.hpp"
 
 namespace optical_dataglove
 {
@@ -52,6 +53,7 @@ namespace optical_dataglove
     image_transport::Subscriber image_subscriber;
 
     boost::shared_ptr<ImagePretreater> image_pretreater;
+    boost::shared_ptr<ImageSegmenter> image_segmenter;
 
     IplImage* last_image;
     cv::Mat last_image_mat;
@@ -60,6 +62,8 @@ namespace optical_dataglove
     ros::NodeHandle node_handle, node_handle_private;
 
     bool display_debug_image;
+      
+    finger_tip::Position position_in_image;
   };
 }
 

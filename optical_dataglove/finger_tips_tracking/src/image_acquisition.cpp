@@ -33,6 +33,7 @@ namespace optical_dataglove
     node_handle_private("~"), display_debug_image(true)
   {
     image_pretreater = boost::shared_ptr<ImagePretreater>( new ImagePretreater() );
+    image_segmenter  = boost::shared_ptr<ImageSegmenter>( new ImageSegmenter() );
 
     image_transport = boost::shared_ptr<image_transport::ImageTransport>(new image_transport::ImageTransport(node_handle_private) );
     image_subscriber = image_transport->subscribe( "/logitech_usb_webcam/image_raw", 1, &ImageAcquirer::new_image_cb, this);
@@ -40,7 +41,8 @@ namespace optical_dataglove
     if(display_debug_image)
     {
       //DISPLAYING THE IMAGE IN DEBUG
-      cvNamedWindow("view");
+      cvNamedWindow("Pretreated Image");
+      cvNamedWindow("Segmentation");
       cvStartWindowThread();
     }
   }
@@ -48,7 +50,8 @@ namespace optical_dataglove
   ImageAcquirer::~ImageAcquirer()
   {
     if(display_debug_image)
-      cvDestroyWindow("view");
+      cvDestroyWindow("Pretreated Image");
+      cvDestroyWindow("Segmentation");
   }
 
   void ImageAcquirer::new_image_cb(boost::shared_ptr<sensor_msgs::Image_<std::allocator<void> > const> const& image_ptr)
@@ -59,9 +62,18 @@ namespace optical_dataglove
       
       //pretreat the image
       last_image_mat = image_pretreater->pretreat(cv::Mat(last_image));
-
       if(display_debug_image)
-        cv::imshow("view", last_image_mat);
+        cv::imshow("Pretreated Image", last_image_mat);
+      
+      //segment the image
+      position_in_image = image_segmenter->segment_finger_tips(last_image_mat);
+      
+      if(display_debug_image)
+      {
+        cv::Point center(position_in_image.x_img, position_in_image.y_img);
+        cv::circle( last_image_mat, center, position_in_image.radius, cv::Scalar(0,0,255), 2, 8, 0 );
+        cv::imshow("Segmentation", last_image_mat);
+      }
     }
     catch (sensor_msgs::CvBridgeException& e)
     {

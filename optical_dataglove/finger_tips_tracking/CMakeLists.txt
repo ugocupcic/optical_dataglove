@@ -21,4 +21,4 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #uncomment if you have defined services
 #rosbuild_gensrv()
 
-rosbuild_add_executable(finger_tips_tracking src/finger_tips_tracker_node.cpp src/image_acquisition.cpp src/image_pretreatment.cpp)
+rosbuild_add_executable(finger_tips_tracking src/finger_tips_tracker_node.cpp src/image_acquisition.cpp src/image_pretreatment.cpp src/image_segmentation.cpp)

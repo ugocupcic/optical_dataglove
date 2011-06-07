@@ -28,7 +28,10 @@
 
 namespace optical_dataglove
 {
+  const int ImagePretreater::default_saturation_threshold = 140;
+
   ImagePretreater::ImagePretreater()
+    : first_call(true)
   {
   }
 
@@ -38,9 +41,14 @@ namespace optical_dataglove
 
   cv::Mat ImagePretreater::pretreat(cv::Mat image_mat)
   {
+    if(first_call)
+    {
+      bin_image = cv::Mat(image_mat.rows, image_mat.cols, CV_8UC1);
+    }
+
     start_image = image_mat;
     convert_to_hsv();
-    filter_saturation();
+    filter_saturation(default_saturation_threshold);
     erode_then_dilate();
 
     return transformed_image;
@@ -48,21 +56,26 @@ namespace optical_dataglove
 
   void ImagePretreater::convert_to_hsv()
   {    
-    cv::cvtColor (start_image, transformed_image, CV_BGR2HSV);
+    cv::cvtColor(start_image, transformed_image, CV_BGR2HSV);
   }
 
-  void ImagePretreater::filter_saturation()
-  {   
+  void ImagePretreater::filter_saturation(int threshold)
+  {       
     for(int i = 0; i < transformed_image.rows; i++)
     {
       for(int j = 0; j < transformed_image.cols; j++)
       {
-        if( transformed_image.at<cv::Vec3b>(i,j)[1] < 200 )
+        if( transformed_image.at<cv::Vec3b>(i,j)[1] < threshold )
         {
+          bin_image.at<uchar>(i,j) = 0;
           // Clear pixel blue output channel
           transformed_image.at<cv::Vec3b>(i,j)[0] = 0;
           transformed_image.at<cv::Vec3b>(i,j)[1] = 0;
           transformed_image.at<cv::Vec3b>(i,j)[2] = 0;
+        }
+        else
+        {
+          bin_image.at<uchar>(i,j) = 1;
         }
       }
     }
@@ -73,8 +86,7 @@ namespace optical_dataglove
     cv::erode(transformed_image, tmp_image, cv::Mat(), cv::Point(-1,-1), 10);
     transformed_image = tmp_image;
     cv::dilate(transformed_image, tmp_image, cv::Mat(), cv::Point(-1,-1), 10);
-    transformed_image = tmp_image;
-    
+    transformed_image = tmp_image;    
   }
 }
 
