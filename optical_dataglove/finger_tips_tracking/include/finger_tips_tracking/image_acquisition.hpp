@@ -56,7 +56,7 @@ namespace optical_dataglove
     boost::shared_ptr<ImageSegmenter> image_segmenter;
 
     IplImage* last_image;
-    cv::Mat last_image_mat;
+    cv::Mat last_image_mat, original_image_mat;
     sensor_msgs::CvBridge cv_bridge;
     
     ros::NodeHandle node_handle, node_handle_private;

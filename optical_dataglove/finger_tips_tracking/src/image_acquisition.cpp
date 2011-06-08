@@ -59,6 +59,7 @@ namespace optical_dataglove
     try
     {
       last_image = cv_bridge.imgMsgToCv(image_ptr, "rgb8");
+      original_image_mat = cv::Mat(last_image);
       
       //pretreat the image
       last_image_mat = image_pretreater->pretreat(cv::Mat(last_image));
@@ -71,8 +72,8 @@ namespace optical_dataglove
       if(display_debug_image)
       {
         cv::Point center(position_in_image.y_img, position_in_image.x_img);
-        cv::circle( last_image_mat, center, position_in_image.radius, cv::Scalar(255), 2, 8, 0 );
-        cv::imshow("Segmentation", last_image_mat);
+        cv::circle( original_image_mat, center, position_in_image.radius, cv::Scalar(0,0,255), 2, 8, 0 );
+        cv::imshow("Segmentation", original_image_mat);
       }
     }
     catch (sensor_msgs::CvBridgeException& e)

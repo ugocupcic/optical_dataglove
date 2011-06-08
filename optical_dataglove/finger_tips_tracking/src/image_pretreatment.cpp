@@ -28,7 +28,7 @@
 
 namespace optical_dataglove
 {
-  const int ImagePretreater::default_saturation_threshold = 100;
+  const int ImagePretreater::default_saturation_threshold = 140;
 
   ImagePretreater::ImagePretreater()
     : first_call(true)
