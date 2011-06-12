@@ -31,17 +31,6 @@
 #include <ros/ros.h>
 #include <opencv/cv.h>
 
-namespace finger_tip
-{
-  struct Position
-  {
-    int x_img; //x position in the image
-    int y_img; //y position in the image
-
-    int radius; //radius representing the confidence in the position
-  };
-}
-
 namespace optical_dataglove
 {
   class ImageSegmenter
@@ -50,9 +39,10 @@ namespace optical_dataglove
     ImageSegmenter();
     ~ImageSegmenter();
 
-    finger_tip::Position segment_finger_tips(cv::Mat image_mat);
+    cv::Rect segment_finger_tips(cv::Mat image_mat);
+    cv::Rect flood_fill();
   private:    
-    cv::Mat tmp_image;
+    cv::Mat image_mat_;
   };
 }
 

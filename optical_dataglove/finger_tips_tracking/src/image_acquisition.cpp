@@ -71,10 +71,11 @@ namespace optical_dataglove
       
       if(display_debug_image)
       {
-        cv::Point center(position_in_image.y_img, position_in_image.x_img);
-        cv::circle( original_image_mat, center, position_in_image.radius, cv::Scalar(0,0,255), 2, 8, 0 );
+        if( position_in_image.width != 0)
+          cv::rectangle( original_image_mat, position_in_image, cv::Scalar(0,0,255), 1 );
         cv::imshow("Segmentation", original_image_mat);
       }
+      
     }
     catch (sensor_msgs::CvBridgeException& e)
     {

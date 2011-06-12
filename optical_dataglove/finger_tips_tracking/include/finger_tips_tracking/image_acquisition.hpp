@@ -63,7 +63,7 @@ namespace optical_dataglove
 
     bool display_debug_image;
       
-    finger_tip::Position position_in_image;
+    cv::Rect position_in_image;
   };
 }
 
