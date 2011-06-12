@@ -37,27 +37,28 @@ namespace optical_dataglove
   {
   }
 
-  cv::Rect ImageSegmenter::segment_finger_tips(cv::Mat image_mat)
+  std::vector<cv::Rect> ImageSegmenter::segment_finger_tips(cv::Mat image_mat)
   {
     image_mat_ = image_mat;
     return flood_fill();
   }
 
-  cv::Rect ImageSegmenter::flood_fill()
+  std::vector<cv::Rect> ImageSegmenter::flood_fill()
   {
-    cv::Rect rect;
+    std::vector<cv::Rect> result;
+    cv::Rect tmpRect;
     for(int i=0; i < image_mat_.rows; ++i)
     {
       for(int j=0; j < image_mat_.cols; ++j)
       {
         if(image_mat_.at<uchar>(i,j) == 255)
         {
-          cv::floodFill(image_mat_, cv::Point(j,i), cv::Scalar(0), &rect);
-          return rect;
+          cv::floodFill(image_mat_, cv::Point(j,i), cv::Scalar(0), &tmpRect);
+          result.push_back(cv::Rect(tmpRect));
         }
       }
     }
-    return cv::Rect(0,0,0,0);
+    return result;
   }
 }
 

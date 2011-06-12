@@ -1,4 +1,4 @@
-/**
+#/**
  * @file   image_acquisition.cpp
  * @author Ugo Cupcic <ugocupcic@gmail.com>
  * @date   Sun May 29 15:16:04 2011
@@ -67,12 +67,13 @@ namespace optical_dataglove
         cv::imshow("Pretreated Image", last_image_mat);
       
       //segment the binary image
-      position_in_image = image_segmenter->segment_finger_tips(last_image_mat);
+      std::vector<cv::Rect> position_in_image = image_segmenter->segment_finger_tips(last_image_mat);
       
       if(display_debug_image)
       {
-        if( position_in_image.width != 0)
-          cv::rectangle( original_image_mat, position_in_image, cv::Scalar(0,0,255), 1 );
+        for (int i = 0; i < position_in_image.size(); i++) {
+          cv::rectangle( original_image_mat, position_in_image[i], cv::Scalar(0,0,255), 1 );
+        }
         cv::imshow("Segmentation", original_image_mat);
       }
       

@@ -39,8 +39,8 @@ namespace optical_dataglove
     ImageSegmenter();
     ~ImageSegmenter();
 
-    cv::Rect segment_finger_tips(cv::Mat image_mat);
-    cv::Rect flood_fill();
+    std::vector<cv::Rect> segment_finger_tips(cv::Mat image_mat);
+    std::vector<cv::Rect> flood_fill();
   private:    
     cv::Mat image_mat_;
   };
